@@ -1,0 +1,301 @@
+
+# MARKDOWN: # Importing Necessary Libraries
+
+# CODE:
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+import os
+from IPython.display import Audio, display
+
+import pandas as pd
+import numpy as np
+
+# MARKDOWN: # Preprocessing Data
+
+# CODE:
+base_path = "cv-corpus-24.0-2025-12-05\\xmf"
+clips_path = os.path.join(base_path, "clips")
+
+train = pd.read_csv(os.path.join(base_path, "train.tsv"), sep="\t")
+dev = pd.read_csv(os.path.join(base_path, "dev.tsv"), sep="\t")
+test = pd.read_csv(os.path.join(base_path, "test.tsv"), sep="\t")
+validated = pd.read_csv(os.path.join(base_path, "validated.tsv"), sep="\t")
+invalidated = pd.read_csv(os.path.join(base_path, "invalidated.tsv"), sep="\t")
+other = pd.read_csv(os.path.join(base_path, "other.tsv"), sep="\t")
+reported = pd.read_csv(os.path.join(base_path, "reported.tsv"), sep="\t")
+clip_durations = pd.read_csv(os.path.join(base_path, "clip_durations.tsv"), sep="\t")
+validated_sentences = pd.read_csv(os.path.join(base_path, "validated_sentences.tsv"), sep="\t")
+unvalidated_sentences = pd.read_csv(os.path.join(base_path, "unvalidated_sentences.tsv"), sep="\t")
+
+
+# CODE:
+datasets = {
+    "train": train,
+    "dev": dev,
+    "test": test,
+    "validated": validated,
+    "invalidated": invalidated,
+    "other": other,
+    "reported": reported
+}
+
+# CODE:
+eda = {}
+
+for name, df in datasets.items():
+    info = {}
+    info["rows"] = len(df)
+    info["cols"] = df.shape[1]
+    info["missing"] = df.isna().sum()
+    info["duplicates"] = df.duplicated().sum()
+    if "sentence" in df.columns:
+        info["sentence_len"] = df["sentence"].astype(str).apply(len).describe()
+        info["word_count"] = df["sentence"].astype(str).apply(lambda x: len(x.split())).describe()
+    if "path" in df.columns:
+        info["unique_clips"] = df["path"].nunique()
+    eda[name] = info
+
+duration_stats = clip_durations["duration[ms]"].describe()
+
+# MARKDOWN: ## First off lets check out distribution of clip duration overally from all the sets
+
+# CODE:
+plt.figure()
+clip_durations["duration[ms]"].hist(bins=1000)
+plt.xlabel("Duration")
+plt.ylabel("Count")
+plt.title("Clip Duration Distribution")
+plt.show()
+
+
+# MARKDOWN: ## In total the dataset contains 12 hours of data
+
+# CODE:
+total_duration_ms = clip_durations["duration[ms]"].sum()
+total_hours = total_duration_ms / 3600000
+
+print("Total duration (ms):", total_duration_ms)
+print("Total duration (hours):", total_hours)
+
+# MARKDOWN: ## The sentence lengths in the validated dataset range from 0 to 120 tokens, with the majority concentrated around 60.
+
+# CODE:
+sent_lengths = validated_sentences["sentence"].astype(str).apply(len)
+
+plt.figure()
+sent_lengths.hist(bins=50)
+plt.xlabel("Sentence Length")
+plt.ylabel("Count")
+plt.title("Sentence Length Distribution")
+plt.show()
+
+# MARKDOWN: ### Lets take a closer look to the unique characters in the datasets.
+
+# CODE:
+train_chars = set("".join(train["sentence"].astype(str)))
+test_chars = set("".join(test["sentence"].astype(str)))
+
+print("Train unique characters:", sorted(train_chars))
+print("Test unique characters:", sorted(test_chars))
+
+print("Train char count:", len(train_chars))
+print("Test char count:", len(test_chars))
+
+# MARKDOWN: ### We have 3 distinct characters in mingrelian language, which do not appear in georgian language. There characters are 'ჲ', 'ჷ', 'ჸ'. To investigate their pronouncation and spelling, lets take a look at one sample for each character
+
+# CODE:
+chars_to_find = ['ჲ', 'ჷ', 'ჸ']
+final_samples = []
+used_paths = set() 
+
+for char in chars_to_find:
+    matches = test[
+        test['sentence'].astype(str).str.contains(char, na=False) & 
+        ~test['path'].isin(used_paths)
+    ]
+    
+    found_valid = False
+    
+    for _, row in matches.iterrows():
+        audio_path = os.path.join(clips_path, row['path'])
+        
+        try:
+            y, sr = librosa.load(audio_path, sr=None)
+            
+            if len(y) == 0 or np.max(np.abs(y)) == 0 or np.isnan(y).any():
+                print(f"Skipping silent/corrupted file for '{char}': {row['path']}")
+                continue 
+            
+            final_samples.append((char, row, y, sr))
+            used_paths.add(row['path'])
+            found_valid = True
+            break 
+            
+        except Exception as e:
+            print(f"Error loading {row['path']}: {e}")
+            continue
+            
+    if not found_valid:
+        print(f"Could not find ANY valid audio for '{char}'.")
+
+
+# CODE:
+if final_samples:
+    fig, axes = plt.subplots(len(final_samples), 1, figsize=(12, 3 * len(final_samples)))
+    
+    if len(final_samples) == 1: 
+        axes = [axes]
+
+    for i, (char, row, y, sr) in enumerate(final_samples):
+        librosa.display.waveshow(y, sr=sr, ax=axes[i], color="teal")
+        axes[i].set_title(f"Target Character: '{char}' | Text: {row['sentence']}")
+        
+        print(f"▶️ Play audio for '{char}':")
+        display(Audio(data=y, rate=sr))
+
+    plt.tight_layout()
+    plt.show()
+
+# MARKDOWN: #### Lets add clip durations within real datasets
+
+# CODE:
+if 'clip' in clip_durations.columns:
+    clip_durations = clip_durations.rename(columns={'clip': 'path'})
+
+train = pd.merge(train, clip_durations, on="path", how="left")
+dev = pd.merge(dev, clip_durations, on="path", how="left")
+test = pd.merge(test, clip_durations, on="path", how="left")
+
+# MARKDOWN: ### Statistical information about speakers
+
+# CODE:
+total_speakers = train['client_id'].nunique()
+print(f"Total unique speakers in Train: {total_speakers}")
+
+# CODE:
+speaker_counts = train['client_id'].value_counts()
+top_1_pct = (speaker_counts.iloc[0] / len(train)) * 100
+top_5_pct = (speaker_counts.iloc[:5].sum() / len(train)) * 100
+
+print(f"Top 1 speaker recorded {top_1_pct:.1f}% of the training data.")
+print(f"Top 5 speakers recorded {top_5_pct:.1f}% of the training data.\n")
+
+# CODE:
+plt.figure(figsize=(10, 5))
+
+top_counts = speaker_counts.iloc[:10].values
+x_labels = range(len(top_counts))
+
+sns.barplot(x=x_labels, y=top_counts, palette="viridis")
+
+plt.title("Top 10 Speakers by Number of Clips (Train Set)")
+plt.xlabel("Speaker Index")
+plt.ylabel("Number of Clips")
+
+plt.show()
+
+# CODE:
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+sns.countplot(data=train, x='gender', ax=axes[0], palette="pastel", order=train['gender'].value_counts().index)
+axes[0].set_title("Gender Distribution")
+
+sns.countplot(data=train, x='age', ax=axes[1], palette="pastel", order=train['age'].value_counts().index)
+axes[1].set_title("Age Distribution")
+axes[1].tick_params(axis='x', rotation=45)
+plt.tight_layout()
+plt.show()
+
+# CODE:
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+sns.countplot(data=test, x='gender', ax=axes[0], palette="pastel", order=train['gender'].value_counts().index)
+axes[0].set_title("Gender Distribution")
+
+sns.countplot(data=test, x='age', ax=axes[1], palette="pastel", order=train['age'].value_counts().index)
+axes[1].set_title("Age Distribution")
+axes[1].tick_params(axis='x', rotation=45)
+plt.tight_layout()
+plt.show()
+
+# CODE:
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+sns.countplot(data=validated, x='gender', ax=axes[0], palette="pastel", order=train['gender'].value_counts().index)
+axes[0].set_title("Gender Distribution")
+
+sns.countplot(data=validated, x='age', ax=axes[1], palette="pastel", order=train['age'].value_counts().index)
+axes[1].set_title("Age Distribution")
+axes[1].tick_params(axis='x', rotation=45)
+plt.tight_layout()
+plt.show()
+
+# MARKDOWN: ### IMPORTANT : Gender, sentence_domain, accents, variant and segment columns has lots of NaNs
+
+#### Gender: NaN s are probably voices of Male (TODO)
+#### Sentence domain, Variant and Segment is fully NaN columns
+#### Age misses some columns manually
+
+# CODE:
+train.isna().sum()
+
+# MARKDOWN: ### Data Leakage Check
+
+# CODE:
+train_speakers = set(train['client_id'])
+dev_speakers = set(dev['client_id'])
+test_speakers = set(test['client_id'])
+
+leakage_dev = train_speakers.intersection(dev_speakers)
+leakage_test = train_speakers.intersection(test_speakers)
+print(f"Speakers in BOTH Train and Dev: {len(leakage_dev)}")
+print(f"Speakers in BOTH Train and Test: {len(leakage_test)}\n")
+
+# CODE:
+train
+
+# CODE:
+for df in [train, dev, test]:
+    if 'duration[ms]_x' in df.columns:
+        df['duration_sec'] = df['duration[ms]_x'] / 1000.0
+
+train['word_count'] = train['sentence'].apply(lambda x: len(str(x).split()))
+train['speech_rate'] = train['word_count'] / train['duration_sec']
+
+print(f"Average words per sentence: {train['word_count'].mean():.1f}")
+print(f"Average speech rate (words/sec): {train['speech_rate'].mean():.2f}\n")
+
+# MARKDOWN: ### Speech rate (Wp/S)
+
+# CODE:
+plt.figure(figsize=(10, 5))
+sns.histplot(train['speech_rate'].dropna(), bins=50, color='green', kde=True)
+plt.title("Speech Rate (Words per Second) in Train Set")
+plt.xlabel("Words per Second")
+plt.ylabel("Frequency")
+plt.show()
+
+# CODE:
+unique_sentences = train['sentence'].nunique()
+print(f"Unique sentences in Train: {unique_sentences} out of {len(train)} total rows.")
+print(f"Percentage of unique text: {(unique_sentences/len(train))*100:.1f}%\n")
+
+# MARKDOWN: ### Validated VS Invalidated
+
+# CODE:
+val_count = len(validated)
+inval_count = len(invalidated)
+total_reviewed = val_count + inval_count
+
+print(f"Total Validated Clips: {val_count}")
+print(f"Total Invalidated Clips: {inval_count}")
+if total_reviewed > 0:
+    print(f"Invalidation Rate: {(inval_count / total_reviewed) * 100:.2f}%\n")
+
+# Plot Validated vs Invalidated
+plt.figure(figsize=(6, 4))
+sns.barplot(x=['Validated', 'Invalidated'], y=[val_count, inval_count], palette=['#2ecc71', '#e74c3c'])
+plt.title("Validated vs Invalidated Clips")
+plt.ylabel("Number of Clips")
+plt.show()
+
