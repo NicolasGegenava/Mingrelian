@@ -1,0 +1,39 @@
+{
+  "language": "xmf",
+  "language_name": "Mingrelian",
+  "script": "Georgian Mkhedruli",
+  "sample_rate": 16000,
+  "total_clips": 6749,
+  "splits": {
+    "train": {
+      "clips": 5325,
+      "duration_hours": 9.051689999999999,
+      "speakers": 81,
+      "unique_sentences": 791
+    },
+    "dev": {
+      "clips": 727,
+      "duration_hours": 1.2599200000000002,
+      "speakers": 39,
+      "unique_sentences": 98
+    },
+    "test": {
+      "clips": 697,
+      "duration_hours": 1.1739,
+      "speakers": 43,
+      "unique_sentences": 98
+    }
+  },
+  "vocab_size": 39,
+  "mingrelian_specific_chars": {
+    "schwa": "ჷ (U+10F7)",
+    "glottal_stop": "ჸ (U+10F8)",
+    "yod": "ჲ (U+10F2)"
+  },
+  "filters_applied": {
+    "min_duration_s": 1.5,
+    "max_duration_s": 15.0,
+    "min_chars_per_sec": 4.0,
+    "max_chars_per_sec": 16.0
+  }
+}

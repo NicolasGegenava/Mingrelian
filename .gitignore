@@ -1,0 +1,21 @@
+# Common Voice corpus (large audio dataset)
+cv-corpus-25.0-2026-03-09/
+
+# Audio wavs
+data_prepared/wavs/
+
+# Model weights and checkpoints
+*.safetensors
+checkpoint-*/
+runs/
+
+# Firecrawl cache
+.firecrawl/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Environment
+.env

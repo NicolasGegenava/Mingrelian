@@ -1,0 +1,173 @@
+[
+  {
+    "reference": "თიქ აკაბურცხა თასშე გიშაფალჷ დო თაშნე მორთჷ თე ქიანაშა",
+    "prediction": "თიქ გაკაბურთხა თასშე გიშაფალჷ დო თაშ ნე მორთჷ თე ქიანაშა",
+    "exact_match": false,
+    "duration_s": 5.616,
+    "audio": "common_voice_xmf_42691611.wav",
+    "has_schwa": true,
+    "has_glottal": false
+  },
+  {
+    "reference": "იდჷ ართ მარას ვითოხუთის ართ თუთას იდჷ ირო ზღვა პიჯით",
+    "prediction": "იდჷ ართ მარას მითოხუთის ართ თუთას იდჷ იროს დღვა პიჯით",
+    "exact_match": false,
+    "duration_s": 7.056,
+    "audio": "common_voice_xmf_43014900.wav",
+    "has_schwa": true,
+    "has_glottal": false
+  },
+  {
+    "reference": "ფშხირას ართი როხქუაშ ეშაზინდუას თელი დღა მეუღუდჷ",
+    "prediction": "შხირას ართი როხ ქუაშ ეშაზინდუას თელი დღა მეუღუდჷ",
+    "exact_match": false,
+    "duration_s": 6.588,
+    "audio": "common_voice_xmf_42879516.wav",
+    "has_schwa": true,
+    "has_glottal": false
+  },
+  {
+    "reference": "ჭიიჭიეთ სქემაქ გინირთჷ ორთინაია ღირზეეფიშ დო ოკიბირაია ბარბალეფიშ გვარგვასიათ",
+    "prediction": "ჭიიჭიედი სქემაქ გინირთჷ ორთინაია ღირ ზეეფიშ დო ოქიბირაია ბარბალეფიშ გვარგვასიათ",
+    "exact_match": false,
+    "duration_s": 9.252,
+    "audio": "common_voice_xmf_42366595.wav",
+    "has_schwa": true,
+    "has_glottal": false
+  },
+  {
+    "reference": "მიდურსუ ოჭუმარესჷ ონჯუასჷ ქჷმურსუ ჯინითჷ ხარგელი",
+    "prediction": "მიდურსუ ოჭუმარეს ონჯუას ქუმურსუ ჯინითჷ ხარკელი",
+    "exact_match": false,
+    "duration_s": 6.012,
+    "audio": "common_voice_xmf_42697273.wav",
+    "has_schwa": true,
+    "has_glottal": false
+  },
+  {
+    "reference": "ჸუჯით გირჩქილექ ჯოღორი ხოლო ვავორექია კუდელც უქვათალუევე",
+    "prediction": "ჸუჯით გირჩქილექ ჯოღორი ხოლო ვავორექია კუდელს უქმათალუევე",
+    "exact_match": false,
+    "duration_s": 5.652,
+    "audio": "common_voice_xmf_42676028.wav",
+    "has_schwa": false,
+    "has_glottal": true
+  },
+  {
+    "reference": "ფარფალიეფიშ გოჩინებაფა გოკონდა ჟირ ვარა სუმ ბარუს ხოლო ქოგოურზე ოკო მუდგათ იჸინ",
+    "prediction": "ფარფალიეფიშ გოჩინეფაფა გოკონდა ჟირვარა სუმბარუს ხოლო ქოგოურზე ოკო მუდგათიჸინჷ",
+    "exact_match": false,
+    "duration_s": 6.3,
+    "audio": "common_voice_xmf_42635405.wav",
+    "has_schwa": false,
+    "has_glottal": true
+  },
+  {
+    "reference": "გურქ ვაჩინეს მიში ჸუდე რდჷნი დო მჷნაჩქუმელენქ კჷნი მიდართეს",
+    "prediction": "გურქ ვაჩინეს მიში უდერდჷნი დო მინაჩქუმელენქ კინ მიდართეს",
+    "exact_match": false,
+    "duration_s": 5.652,
+    "audio": "common_voice_xmf_43243958.wav",
+    "has_schwa": true,
+    "has_glottal": true
+  },
+  {
+    "reference": "მირექ სი ჰა",
+    "prediction": "მი რექ სი ჰა",
+    "exact_match": false,
+    "duration_s": 2.988,
+    "audio": "common_voice_xmf_42397542.wav",
+    "has_schwa": false,
+    "has_glottal": false
+  },
+  {
+    "reference": "სი ვაგიორსო ჭკომუა",
+    "prediction": "სი ვაგიორსუჭკუმუა",
+    "exact_match": false,
+    "duration_s": 2.736,
+    "audio": "common_voice_xmf_42424037.wav",
+    "has_schwa": false,
+    "has_glottal": false
+  },
+  {
+    "reference": "უჩა ქოთომი ხოლო ჩე კვერცხის სქუნსია",
+    "prediction": "ჸუჩაქ ქოთუმ ხო დო ჩეკვერთხის სქუნსია",
+    "exact_match": false,
+    "duration_s": 3.816,
+    "audio": "common_voice_xmf_42449083.wav",
+    "has_schwa": false,
+    "has_glottal": false
+  },
+  {
+    "reference": "ჩქინჯგურა ფერმას გვალო ეფას ეიაჯუმე ვითოჟირ ცხენი ეჩი ჩხოუ ოშობათ შხური",
+    "prediction": "ჩქინჯგურა ფერმას გვალო ეფასე იაჯუმე ვითოჟირ ცხენ ეჩი ჩხოუუ ოშობათ შხური",
+    "exact_match": false,
+    "duration_s": 8.28,
+    "audio": "common_voice_xmf_45939365.wav",
+    "has_schwa": false,
+    "has_glottal": false
+  },
+  {
+    "reference": "ქუმაღალაფუ ათე კოჩქ მუში ოსურიში მუკაქუნალეფი ქუმაჸონაფუ ჯგირი ცხენი გიოხუნუ ოსური დო გურქის დოხორეშა",
+    "prediction": "ქუმაღალაფუ ათე კოჩქ მუში ოსურიში მუკაქუნალეფი ქუმაჸონაფუ ჯგირ ცხენ გიოხუნუ ოსური დო გურქის დოხორეშა",
+    "exact_match": false,
+    "duration_s": 9.468,
+    "audio": "common_voice_xmf_43127343.wav",
+    "has_schwa": false,
+    "has_glottal": true
+  },
+  {
+    "reference": "კანკალეს გვალო პროტესტიშ გიმოხანტუაშა აფუდჷ გური მარა გაღიერ არგუმენტიშ მოჸონაფაშა ვეგიადგინჷ დუდქ",
+    "prediction": "კანკალოზ გვალო პროტესტიშ გიმოხანტუაშააფუდჷგურ მარა გაღიერი არგუმენტიშ მოჸონაფაშა ვეგიადგინ დუდქ",
+    "exact_match": false,
+    "duration_s": 9.468,
+    "audio": "common_voice_xmf_43127629.wav",
+    "has_schwa": true,
+    "has_glottal": true
+  },
+  {
+    "reference": "ართი დიდი ჭყონი ნამუში ჯინჯი ჟარნეჩი კვადრატ საჯენ გედგუნფერი",
+    "prediction": "ართი დიდი ჭყონი ნამუში ჯინჭი ჟარნეჭ კვადრათ საჯინ გედგუნ ფერი",
+    "exact_match": false,
+    "duration_s": 6.66,
+    "audio": "common_voice_xmf_42061845.wav",
+    "has_schwa": false,
+    "has_glottal": false
+  },
+  {
+    "reference": "თქუანდჷ ღორონთს კუდელი ჭანდეფიშ გაფართხალო აფუნია მოჩამილი",
+    "prediction": "თქუანდჷ ღორონს კუდელი ჭანდეფიშ გაფართხალუ აფუნია მოჩამილი",
+    "exact_match": false,
+    "duration_s": 6.876,
+    "audio": "common_voice_xmf_42424302.wav",
+    "has_schwa": true,
+    "has_glottal": false
+  },
+  {
+    "reference": "მიდგას ხანდაშ ჭყანა უღუნ შურიშ გოფარსალუაშა ოხანდინუანა",
+    "prediction": "მიდგას ხანდაშ ჭყანა ვუღუნ შურიში გოფარსალუაშა ოხანდინუანა",
+    "exact_match": false,
+    "duration_s": 6.408,
+    "audio": "common_voice_xmf_42635587.wav",
+    "has_schwa": false,
+    "has_glottal": false
+  },
+  {
+    "reference": "ართ ჯოღორქ თინა რდჷ კუდელს ოკო აჩამუკო დიწკუმონტუ დო გეგწუზგირტჷ ხეშე",
+    "prediction": "ართ ჯოღორქ თინა რდჷ კუდელს ოკო აჩამუკო დიწკუმონტუ დო გეგწუსგირ ტხეშე",
+    "exact_match": false,
+    "duration_s": 7.668,
+    "audio": "common_voice_xmf_42697227.wav",
+    "has_schwa": true,
+    "has_glottal": false
+  },
+  {
+    "reference": "მუ საკურელიე ბიგა ქიდჷნააჩანეს წყარსჷ მარა კინი ხომულათ გეშეღესჷ",
+    "prediction": "მუ საკურელიე ბიგა ქიდნაჩანეს წყარსჷ მარა კინი ხუმილათ გეშერეს",
+    "exact_match": false,
+    "duration_s": 7.776,
+    "audio": "common_voice_xmf_42062331.wav",
+    "has_schwa": true,
+    "has_glottal": false
+  }
+]
